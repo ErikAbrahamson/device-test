@@ -8,27 +8,12 @@ var mongoose = require('mongoose-q')(require('mongoose'));
 var should = chai.should();
 chai.use(chaiHttp);
 
-// Create a scalable solution
-
 describe('Augur Device Recognition', function() {
-
-    // beforeEach(function(done) {
-    //     done();
-    // });
-    //
-    // afterEach(function(done) {
-    //     done();
-    // });
 
     // When a visitor hits a page, assign a unique ID to that browser
     it('Should assign a unique ID to a user\'s browser', function(done) {
 
         chai.request(server).get('/').end(function(err, res) {
-            res.should.have.status(200);
-            done();
-        });
-
-        chai.request(server).get('/cookie').end(function(err, res) {
             res.should.have.status(200);
             done();
         });
