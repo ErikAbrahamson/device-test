@@ -15,6 +15,7 @@ describe('Augur Device Recognition', function() {
 
         chai.request(server).get('/').end(function(err, res) {
             res.should.have.status(200);
+            res.should.have.propery('CUID');
             done();
         });
     });
