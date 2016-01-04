@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var browser = require('bowser');
-var cuid = require('cuid');
 
 /*
 A) When a visitor hits a page, assign a unique ID to that browser
@@ -25,14 +24,7 @@ E) Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on t
 
 router.get('/', function(req, res, next) {
 
-    // res.json({
-    //     browser: req.headers['user-agent'],
-    //     uniqueID: req.cookies['connect.sid'],
-    //     CUID: cuid()
-    // });
-
-    res.json(req.headers);
-
+    res.json(req.device);
 });
 
 router.get('/cookie',function(req, res, next) {
