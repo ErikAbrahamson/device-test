@@ -24,14 +24,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
+    // genid: function(req) {
+    //     return genuuid();
+    // },
     secret: 'whatever',
     saveUnitialized: true,
     resave: true
 }));
 app.use(express.static(path.join(__dirname, '../client')));
-
 app.use('/', routes);
-
 app.use(function(req, res, next) {
 
     var err = new Error('Not Found');
