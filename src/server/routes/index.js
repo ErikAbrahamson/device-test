@@ -31,10 +31,7 @@ router.get('/', function(req, res, next) {
     //     CUID: cuid()
     // });
 
-    res.json({
-        'headers': req.headers,
-        'session ID': req.session.id
-    });
+    res.json(req.headers);
 
 });
 
