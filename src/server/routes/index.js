@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var browser = require('bowser');
+var mongoose = require('mongoose-q')(require('mongoose'), { spread: true });
+var UniqueID = require('../models/uid.js');
 
 /*
 A) When a visitor hits a page, assign a unique ID to that browser
@@ -10,25 +11,18 @@ D) After the browser clears cache, cookies, and all, the browser is still assign
 E) Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
 */
 
-
-// router.get('/', function(req, res, next) {
-//
-//     res.render('index', {
-//         title: 'Augur Device Recognition Test',
-//         browser: req.headers['user-agent'],
-//         uniqueID: req.cookies['connect.sid'],
-//         CUID: cuid()
-//     });
-//
-// });
+// var assignID = function(req, res) {
+//     req.device.parser ? req.device.parser.useragent
+// }
 
 router.get('/', function(req, res, next) {
-
-    res.json(req.device);
+    res.json(req.device.parser.useragent);
 });
 
-router.get('/cookie',function(req, res, next) {
-    res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
+router.post('/browser', function(req, res, next) {
+    new UniqueID(req.body).saveQ()
+        .then(function(result) { res.json(result); })
+        .catch(function(error) { res.json(error);  });
 });
 
 module.exports = router;

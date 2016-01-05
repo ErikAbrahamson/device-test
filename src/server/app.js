@@ -8,12 +8,10 @@ var swig = require('swig');
 var session = require('express-session');
 var browser = require('bowser');
 var device = require('express-device');
-// var Fingerprint2 = require('fingerprintjs2');
-//
-// new Fingerprint2().get(function(result, components){
-//   console.log(result); //a hash, representing your device fingerprint
-//   console.log(components); // an array of FP components
-// });
+var config = require('./_config.js');
+var mongoose = require('mongoose');
+
+var UniqueID = require('./models/uid.js');
 
 var routes = require('./routes/index.js');
 
@@ -38,6 +36,8 @@ app.use(session({
 app.use(device.capture({ parseUserAgent: true }));
 device.enableDeviceHelpers(app);
 device.enableViewRouting(app);
+
+mongoose.connect(config.mongoURI[app.settings.env]);
 
 app.use(express.static(path.join(__dirname, '../client')));
 app.use('/', routes);
