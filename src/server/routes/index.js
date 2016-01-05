@@ -39,22 +39,26 @@ router.post('/', function(req, res, next) {
 
     UniqueID.findQ()
         .then(function(result) {
-            console.log(result.length);
-            result.forEach(function(i) {
-                if (buildID(patch, major, br, os) === i.assignment) {
-                    var query = { '_id': i.id }, options = { new: true };
-                        UniqueID.findOneAndUpdateQ(query, buildID(patch, major, br, os), options)
-                            .then(function(updated) { res.json(updated); })
-                            .catch(function(error) { res.json(error); })
-                            .done();
-                } else {
-                    new UniqueID({ assignment: buildID(patch, major, br, os)} ).saveQ()
-                        .then(function(fingerprint) { res.json(fingerprint); })
-                        .catch(function(error2) { res.json(error2); })
-                        .done();
-                }
+            if (result.length !== 0) {
+                result.forEach(function(i) {
 
-            });
+                    if (buildID(patch, major, br, os) === i.assignment) {
+                        var query = { '_id': i.id }, options = { new: false };
+                            UniqueID.findOneAndUpdateQ(query, buildID(patch, major, br, os), options)
+                                .then(function(updated) { res.json(updated); })
+                                .catch(function(error) { res.json(error); });
+
+                    } else {
+                        new UniqueID({ assignment: buildID(patch, major, br, os)} ).saveQ()
+                            .then(function(fingerprint) { res.json(fingerprint); })
+                            .catch(function(error2) { res.json(error2); });
+                    }
+                });
+            } else {
+                new UniqueID({ assignment: buildID(patch, major, br, os)} ).saveQ()
+                    .then(function(fingerprint) { res.json(fingerprint); })
+                    .catch(function(error2) { res.json(error2); });
+            }
         })
         .catch(function(error3) { res.json(error3); })
         .done();
