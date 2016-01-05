@@ -11,18 +11,26 @@ D) After the browser clears cache, cookies, and all, the browser is still assign
 E) Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
 */
 
-// var assignID = function(req, res) {
-//     req.device.parser ? req.device.parser.useragent
-// }
-
 router.get('/', function(req, res, next) {
-    res.json(req.device.parser.useragent);
+    // router.post('/browser', function(req, res, next) {
+    //     new UniqueID(req.device.parser.useragent).saveQ()
+    //         .then(function(result) { res.json(result); })
+    //         .catch(function(error) { res.json(error);  });
+    // });
+    // UniqueID.find().map(function(u) {
+    //     return u.name;
+    // });
+    UniqueID.findQ()
+        .then(function(result) { res.json(result); })
+        .catch(function(error) { res.json(error); });
+    // res.json(req.device);
 });
 
-router.post('/browser', function(req, res, next) {
-    new UniqueID(req.body).saveQ()
-        .then(function(result) { res.json(result); })
-        .catch(function(error) { res.json(error);  });
-});
+// router.post('/browser', function(req, res, next) {
+//     if (req.device.parser.useragent.family && )
+//     new UniqueID(req.device.parser.useragent).saveQ()
+//         .then(function(result) { res.json(result); })
+//         .catch(function(error) { res.json(error);  });
+// });
 
 module.exports = router;
