@@ -10,6 +10,7 @@ C) After the browser clears cookies, the browser is still assigned the same ID
 D) After the browser clears cache, cookies, and all, the browser is still assigned the same ID
 E) Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
 */
+
 router.post('/', function(req, res, next) {
 
     var patch = req.device.parser.useragent.patch,
