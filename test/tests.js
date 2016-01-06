@@ -4,6 +4,7 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../src/server/app.js');
 var mongoose = require('mongoose-q')(require('mongoose'));
+var device = require('express-device');
 
 var should = chai.should();
 chai.use(chaiHttp);
@@ -14,6 +15,7 @@ describe('Augur Device Recognition', function() {
     it('Should assign a unique ID to a user\'s browser', function(done) {
 
         chai.request(server).get('/').end(function(err, res) {
+            console.log(chai.request);
             res.should.have.status(200);
             res.should.have.propery('CUID');
             done();
