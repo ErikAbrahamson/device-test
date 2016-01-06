@@ -33,9 +33,9 @@ router.post('/', function(req, res, next) {
         .then(function(result) {
 
             if (result.length !== 0) {
-                var counter = 0, query = { 'assignment': buildID(patch, major, br, os) };
+                var counter = 0, query = { 'fingerprint': buildID(patch, major, br, os) };
                 result.forEach(function(i) {
-                    if (buildID(patch, major, br, os) === i.assignment)  counter++;
+                    if (buildID(patch, major, br, os) === i.fingerprint)  counter++;
                 });
 
                 if (counter >= 1) {
@@ -45,12 +45,12 @@ router.post('/', function(req, res, next) {
                             .catch(function(error) { res.json(error); });
 
                 } else if (counter === 0) {
-                    new UniqueID({ assignment: buildID(patch, major, br, os) }).saveQ()
+                    new UniqueID({ fingerprint: buildID(patch, major, br, os) }).saveQ()
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
                 }
             } else {
-                new UniqueID({ assignment: buildID(patch, major, br, os) }).saveQ()
+                new UniqueID({ fingerprint: buildID(patch, major, br, os) }).saveQ()
                     .then(function(data) { res.json(data); })
                     .catch(function(error) { res.json(error); });
             }
