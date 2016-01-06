@@ -13,14 +13,6 @@ E) Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on t
 
 router.get('/', function(req, res, next) {
 
-    var patch = req.device.parser.useragent.patch,
-        major = req.device.parser.useragent.major,
-           br = req.device.parser.useragent.family,
-           os = req.device.parser.useragent.os.family,
-           buildID = function(patch, major, br, os) {
-               return br[0] + (+patch * +major).toString() + os[0];
-           };
-
     UniqueID.findQ()
         .then(function(result) { res.json(result); })
         .catch(function(error) { res.json(error); })
@@ -39,23 +31,20 @@ router.post('/', function(req, res, next) {
 
     UniqueID.findQ()
         .then(function(result) {
-            if (result.length !== 0) {
-                var counter = 0, query;
-                result.forEach(function(i) {
 
+            if (result.length !== 0) {
+                var counter = 0, query = { 'assignment': buildID(patch, major, br, os) };
+                result.forEach(function(i) {
                     if (buildID(patch, major, br, os) === i.assignment)  counter++;
-                    query = { 'assignment': buildID(patch, major, br, os) };
                 });
 
                 if (counter >= 1) {
-                    console.log(counter, query);
                     var options = { new: false };
                         UniqueID.findOneAndUpdateQ(query, buildID(patch, major, br, os), options)
                             .then(function(data) { res.json(data); })
                             .catch(function(error) { res.json(error); });
 
                 } else if (counter === 0) {
-                    console.log(counter);
                     new UniqueID({ assignment: buildID(patch, major, br, os) }).saveQ()
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
