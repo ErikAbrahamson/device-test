@@ -39,7 +39,6 @@ device.enableViewRouting(app);
 
 mongoose.connect(config.mongoURI[app.settings.env]);
 
-app.use(express.static(path.join(__dirname, '../client')));
 app.use('/', routes);
 app.use(function(req, res, next) {
 
