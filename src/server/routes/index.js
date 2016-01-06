@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
+    // Build unique ID with express-device to parse userAgent headers
     var patch = req.device.parser.useragent.patch,
         major = req.device.parser.useragent.major,
            br = req.device.parser.useragent.family,
@@ -32,23 +33,27 @@ router.post('/', function(req, res, next) {
     UniqueID.findQ()
         .then(function(result) {
 
+            // Check if any browsers have already been assigned
             if (result.length !== 0) {
                 var counter = 0, query = { 'fingerprint': buildID(patch, major, br, os) };
                 result.forEach(function(i) {
                     if (buildID(patch, major, br, os) === i.fingerprint)  counter++;
                 });
 
+                // Update current browser for new session
                 if (counter >= 1) {
                     var options = { new: false };
                         UniqueID.findOneAndUpdateQ(query, buildID(patch, major, br, os), options)
                             .then(function(data) { res.json(data); })
                             .catch(function(error) { res.json(error); });
 
+                // Create new unique ID if no browser exists yet
                 } else if (counter === 0) {
                     new UniqueID({ fingerprint: buildID(patch, major, br, os) }).saveQ()
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
                 }
+            // Initial browser store
             } else {
                 new UniqueID({ fingerprint: buildID(patch, major, br, os) }).saveQ()
                     .then(function(data) { res.json(data); })
