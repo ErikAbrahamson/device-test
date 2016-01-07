@@ -29,13 +29,11 @@ describe('Augur Device Recognition', function() {
         chai.request(server).post('/')
             .send().end(function(err, res) {
 
-                // Find a way to detect the environment userAgent
                 res.should.have.status(200);
                 res.body.should.be.a('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.equal('O0O' || 'C118722M');
                 res.body.fingerprint.should.have.length.of.at.least(3);
                 done();
             });
@@ -44,28 +42,60 @@ describe('Augur Device Recognition', function() {
     // After the browser is restarted, when the visitor hits the page again the browser has the same ID
     it('Should return the same unique browser ID after browser is restarted', function(done) {
 
-        chai.request(server).get('/').end(function(err, res) {
-            res.should.have.status(200);
-            done();
-        });
+        chai.request(server).post('/')
+            .send().end(function(err, res) {
+
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('_id');
+                res.body.should.have.property('fingerprint');
+                res.body.fingerprint.should.not.equal(null);
+                res.body.fingerprint.should.have.length.of.at.least(3);
+                done();
+            });
     });
 
     // After the browser clears cookies, the browser is still assigned the same ID
     it('Should keep the unique ID after clearing browser cookies', function(done) {
+        var tempCookie;
 
-        chai.request(server).get('/').end(function(err, res) {
-            res.should.have.status(200);
-            done();
-        });
+        chai.request(server).post('/')
+            .send().end(function(err, res) {
+
+                tempCookie = res.headers['set-cookie'][0];
+                tempCookie.should.be.a('string');
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('_id');
+                res.body.should.have.property('fingerprint');
+                res.body.fingerprint.should.not.equal(null);
+                res.body.fingerprint.should.have.length.of.at.least(3);
+            });
+
+        chai.request(server).post('/')
+            .send().end(function(err, res) {
+
+                res.headers['set-cookie'][0].should.not.equal(tempCookie);
+                tempCookie.should.be.a('string');
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('_id');
+                res.body.should.have.property('fingerprint');
+                res.body.fingerprint.should.not.equal(null);
+                res.body.fingerprint.should.have.length.of.at.least(3);
+                done();
+            });
     });
 
     // After the browser clears cache, cookies, and all, the browser is still assigned the same ID
     it('Should keep the unique ID after clearing browser cache and cookies', function(done) {
 
-        chai.request(server).get('/').end(function(err, res) {
-            res.should.have.status(200);
-            done();
-        });
+        chai.request(server).post('/')
+            .send().end(function(err, res) {
+
+                res.should.have.status(200);
+                done();
+            });
     });
 
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
