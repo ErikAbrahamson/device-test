@@ -43,9 +43,9 @@ router.post('/', function(req, res, next) {
                 // Update current browser for new session
                 if (counter >= 1) {
                     var options = { new: false };
-                        UniqueID.findOneAndUpdateQ(query, buildID(patch, major, br, os), options)
-                            .then(function(data) { res.json(data); })
-                            .catch(function(error) { res.json(error); });
+                    UniqueID.findOneAndUpdateQ(query, buildID(patch, major, br, os), options)
+                        .then(function(data) { res.json(data); })
+                        .catch(function(error) { res.json(error); });
 
                 // Create new unique ID if no browser exists yet
                 } else if (counter === 0) {
