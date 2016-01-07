@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
             br = req.device.parser.useragent.family,
             os = req.device.parser.useragent.os.family,
             buildID = function(device, patch, major, br, os) {
-                return  br[0] + (+patch * +major).toString() + os[0] + '-' + device[0];
+                return  br[0] + (+patch * +major).toString() + os[0] + '-' + device[0] + device[1];
             };
 
     UniqueID.findQ()

@@ -14,6 +14,7 @@ chai.use(chaiHttp);
 describe('Augur Device Recognition', function() {
 
     beforeEach(function(done) {
+
         UniqueID.collection.drop();
         done();
     });
@@ -55,10 +56,10 @@ describe('Augur Device Recognition', function() {
             });
     });
 
-    // After the browser clears cookies, the browser is still assigned the same ID
-    it('Should keep the unique ID after clearing browser cookies', function(done) {
-        var tempCookie;
+    // After the browser clears cache, cookies, and all, the browser is still assigned the same ID
+    it('Should keep Unique browser ID independent of browser storage and cookies ', function(done) {
 
+        var tempCookie;
         chai.request(server).post('/')
             .send().end(function(err, res) {
 
@@ -87,19 +88,8 @@ describe('Augur Device Recognition', function() {
             });
     });
 
-    // After the browser clears cache, cookies, and all, the browser is still assigned the same ID
-    it('Should keep the unique ID after clearing browser cache and cookies', function(done) {
-
-        chai.request(server).post('/')
-            .send().end(function(err, res) {
-
-                res.should.have.status(200);
-                done();
-            });
-    });
-
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
-    it('Should retain unique ID across browsers', function(done) {
+    xit('Should retain unique ID across browsers', function(done) {
 
         chai.request(server).get('/').end(function(err, res) {
             res.should.have.status(200);
@@ -108,11 +98,31 @@ describe('Augur Device Recognition', function() {
     });
 
     // If you got this to work on desktop, get this to also work on mobile
-    it('Should assign a unique ID to a user\'s browser', function(done) {
+    it('Should have the unique ID differentiate between device types', function(done) {
+        var currentDevice;
+        // desktop, tv, tablet, phone, bot or car
 
-        chai.request(server).get('/').end(function(err, res) {
-            res.should.have.status(200);
-            done();
-        });
+        var devices = {
+            desktop: 'de',
+            television: 'te',
+            tablet: 'ta',
+            phone: 'ph',
+            car: 'ca'
+        };
+
+        chai.request(server).post('/')
+            .send().end(function(err, res) {
+
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('_id');
+                res.body.should.have.property('fingerprint');
+                res.body.fingerprint.should.not.equal(null);
+                res.body.fingerprint.should.have.length.of.at.least(3);
+
+                currentDevice = res.body.fingerprint.split('-',2)[1];
+                currentDevice.should.equal('de' || 'te' || 'ta' || 'ph' || 'ca');
+                done();
+            });
     });
 });
