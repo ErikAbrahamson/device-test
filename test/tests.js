@@ -30,11 +30,13 @@ describe('Augur Device Recognition', function() {
             .send().end(function(err, res) {
 
                 // Find a way to detect the environment userAgent
+                res.should.have.status(200);
                 res.body.should.be.a('object');
                 res.body.should.have.property('_id');
-                res.should.have.status(200);
+                res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.equal('O0O' || 'C118722M');
+                res.body.fingerprint.should.have.length.of.at.least(3);
                 done();
             });
     });
