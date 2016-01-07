@@ -14,7 +14,6 @@ chai.use(chaiHttp);
 describe('Augur Device Recognition', function() {
 
     beforeEach(function(done) {
-
         UniqueID.collection.drop();
         done();
     });
@@ -44,6 +43,7 @@ describe('Augur Device Recognition', function() {
     // After the browser is restarted, when the visitor hits the page again the browser has the same ID
     it('Should return the same unique browser ID after browser is restarted', function(done) {
 
+        UniqueID.collection.drop();
         chai.request(server).post('/')
             .send().end(function(err, res) {
 
@@ -58,7 +58,7 @@ describe('Augur Device Recognition', function() {
     });
 
     // After the browser clears cache, cookies, and all, the browser is still assigned the same ID
-    it('Should keep Unique browser ID independent of browser storage and cookies ', function(done) {
+    it('Should keep Unique browser ID independent of browser storage and cookies', function(done) {
 
         var tempCookie;
         chai.request(server).post('/')
