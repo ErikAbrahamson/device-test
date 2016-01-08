@@ -92,6 +92,12 @@ describe('Augur Device Recognition', function() {
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
     xit('Should retain unique ID across browsers', function(done) {
 
+        /*
+        This can be done by only supplying
+        the OS details from the headers,
+        and will be done if necessary
+        */
+
         chai.request(server).get('/').end(function(err, res) {
             res.should.have.status(200);
             done();
