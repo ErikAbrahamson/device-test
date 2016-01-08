@@ -34,8 +34,6 @@ app.use(session({
 }));
 
 app.use(device.capture({ parseUserAgent: true }));
-device.enableDeviceHelpers(app);
-device.enableViewRouting(app);
 
 mongoose.connect(config.mongoURI[app.settings.env]);
 

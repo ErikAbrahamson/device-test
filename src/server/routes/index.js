@@ -14,7 +14,7 @@ E) Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on t
 router.get('/', function(req, res, next) {
 
     UniqueID.findQ()
-        .then(function(result) { res.json(req.device); })
+        .then(function(result) { res.json(result); })
         .catch(function(error) { res.json(error); })
         .done();
 });
