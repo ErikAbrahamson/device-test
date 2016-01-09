@@ -36,6 +36,7 @@ describe('Augur Device Recognition', function() {
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of.at.least(5);
                 console.log('Current Browser ID: ' + res.body.fingerprint);
+
                 done();
             });
     });

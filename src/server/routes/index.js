@@ -26,19 +26,23 @@ router.post('/', function(req, res, next) {
          patch = req.device.parser.useragent.patch,
          major = req.device.parser.useragent.major,
             br = req.device.parser.useragent.family,
-            os = req.device.parser.useragent.os.family,
-            buildID = function(device, patch, major, br, os) {
-                return  br[0] + (+patch * +major).toString() + os[0] + '-' + device[0] + device[1];
-            };
+            os = req.device.parser.useragent.os,
+            buildID = Object.keys(os).length !== 0
+                ? function(device, patch, major, br, os) {
+                    return os.family[0] + (+os.major * +os.minor).toString() + '-' + device[0] + device[1];
+                }
+                : function(device, patch, major, br, os) {
+                    return br[0] + (+patch * +major).toString() + os[0] + '-' + device[0] + device[1];
+                };
 
     UniqueID.findQ()
         .then(function(result) {
 
             // Check if any browsers have already been assigned
             if (result.length !== 0) {
-                var counter = 0, query = { 'fingerprint': buildID(device, patch, major, br, os) };
+                var counter = 0, query = { 'fingerprint': buildID(device, patch, major, br, os)};
                 result.forEach(function(i) {
-                    if (buildID(device, patch, major, br, os) === i.fingerprint) counter++;
+                    if (buildID(device, patch, major, br, os)=== i.fingerprint) counter++;
                 });
 
                 // Update current browser for new session
@@ -50,13 +54,13 @@ router.post('/', function(req, res, next) {
 
                 // Create new unique ID if no browser exists yet
                 } else if (counter === 0) {
-                    new UniqueID({ fingerprint: buildID(device, patch, major, br, os) }).saveQ()
+                    new UniqueID({ fingerprint: buildID(device, patch, major, br, os)}).saveQ()
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
                 }
             // Initial browser store
             } else {
-                new UniqueID({ fingerprint: buildID(device, patch, major, br, os) }).saveQ()
+                new UniqueID({ fingerprint: buildID(device, patch, major, br, os)}).saveQ()
                     .then(function(data) { res.json(data); })
                     .catch(function(error) { res.json(error); });
             }
