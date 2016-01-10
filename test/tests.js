@@ -5,7 +5,7 @@ var chaiHttp = require('chai-http');
 var server = require('../src/server/app.js');
 var mongoose = require('mongoose-q')(require('mongoose'));
 var device = require('express-device');
-var UniqueID = require('../src/server/models/uid.js');
+var UniqueID = require('../src/server/models/uid');
 var device = require('express-device');
 
 var should = chai.should();
@@ -91,17 +91,26 @@ describe('Augur Device Recognition', function() {
     });
 
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
-    xit('Should retain unique ID across browsers', function(done) {
+    it('Should retain unique ID across browsers', function(done) {
 
-        /*
-        This can be done by only supplying
-        the OS details from the headers,
-        and will be done if necessary
-        */
+        var browsers = [
+            'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0',
+            'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.5.5 (KHTML, like Gecko) Safari/125.5.5',
+            'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2'
+        ];
 
-        chai.request(server).get('/').end(function(err, res) {
-            res.should.have.status(200);
-            done();
+        var options = {
+            url: '/',
+            headers: {
+                'user-agent': browsers[Math.floor(Math.random() * browsers.length + 1)]
+            }
+        };
+
+        chai.request(server).post(options)
+            .send().end(function(err, res) {
+                console.log(res);
+                res.should.have.status(200);
+                done();
         });
     });
 
