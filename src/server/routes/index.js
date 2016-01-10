@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
             if (result.length !== 0) {
                 var counter = 0, query = { 'fingerprint': buildID(device, patch, major, br, os)};
                 result.forEach(function(i) {
-                    if (buildID(device, patch, major, br, os)=== i.fingerprint) counter++;
+                    if (buildID(device, patch, major, br, os) === i.fingerprint) counter++;
                 });
 
                 // Update current browser for new session
