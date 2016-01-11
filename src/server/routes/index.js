@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
 
             // Check if any browsers have already been assigned
             if (result.length !== 0) {
-                var counter = 0, query = { 'fingerprint': buildID(device, patch, major, br, os)};
+                var counter = 0, query = { 'fingerprint': buildID(device, patch, major, br, os) };
                 result.forEach(function(i) {
                     if (buildID(device, patch, major, br, os) === i.fingerprint) counter++;
                 });
@@ -56,13 +56,13 @@ router.post('/', function(req, res, next) {
 
                 // Create new unique ID if no browser exists yet
                 } else if (counter === 0) {
-                    new UniqueID({ fingerprint: buildID(device, patch, major, br, os)}).saveQ()
+                    new UniqueID({ fingerprint: buildID(device, patch, major, br, os) }).saveQ()
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
                 }
             // Initial browser store
             } else {
-                new UniqueID({ fingerprint: buildID(device, patch, major, br, os)}).saveQ()
+                new UniqueID({ fingerprint: buildID(device, patch, major, br, os) }).saveQ()
                     .then(function(data) { res.json(data); })
                     .catch(function(error) { res.json(error); });
             }

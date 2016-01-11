@@ -35,7 +35,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of.at.least(5);
-                console.log('Current Browser ID: ' + res.body.fingerprint);
+                console.log('Current Unique ID: ' + res.body.fingerprint);
                 done();
             });
     });
@@ -116,7 +116,9 @@ describe('Augur Device Recognition', function() {
     // If you got this to work on desktop, get this to also work on mobile
     it('Should have the unique ID differentiate between device types', function(done) {
 
-        var currentDevice, devices = new RegExp(/(de)|(te)|(ta)|(ph)|(ca)/g);
+        var operaMobile = 'Opera/9.80 (J2ME/MIDP; Opera Mini/9.80 (S60; SymbOS; Opera Mobi/23.348; U; en) Presto/2.5.25 Version/10.54';
+
+        var devices = new RegExp(/(de)|(te)|(ta)|(ph)|(ca)/g);
         chai.request(server).post('/')
             .send().end(function(err, res) {
 
@@ -126,8 +128,19 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of.at.least(5);
-                currentDevice = res.body.fingerprint.split('-',2)[1];
-                currentDevice.should.match(devices);
+                res.body.fingerprint.split('-',2)[1].should.match(devices);
+            });
+
+        chai.request(server).post('/')
+            .set('user-agent', operaMobile).send().end(function(err, res) {
+
+                res.should.have.status(200);
+                res.body.should.be.an('object');
+                res.body.should.have.property('_id');
+                res.body.should.have.property('fingerprint');
+                res.body.fingerprint.should.not.equal(null);
+                res.body.fingerprint.should.have.length.of.at.least(5);
+                res.body.fingerprint.split('-',2)[1].should.equal('ph');
                 done();
             });
     });
