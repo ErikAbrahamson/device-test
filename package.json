@@ -1,9 +1,10 @@
 {
-  "name": "_example",
-  "version": "0.0.0",
+  "name": "Augur Code Challenge",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/server/bin/www"
+    "start": "node ./src/server/bin/www",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -33,7 +34,6 @@
     "jshint-stylish": "^2.0.1",
     "mocha": "^2.3.4",
     "mocha-sinon": "^1.1.4",
-    "run-sequence": "^1.1.4",
-    "sinon": "^1.17.2"
+    "run-sequence": "^1.1.4"
   }
 }
