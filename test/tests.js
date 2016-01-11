@@ -43,7 +43,7 @@ describe('Augur Device Recognition', function() {
     // After the browser is restarted, when the visitor hits the page again the browser has the same ID
     it('Should return the same unique browser ID after browser is restarted', function(done) {
 
-        UniqueID.collection.drop();
+        var currentID;
         chai.request(server).post('/')
             .send().end(function(err, res) {
 
@@ -53,6 +53,15 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of.at.least(5);
+                currentID = res.body.fingerprint;
+            });
+
+        UniqueID.collection.drop();
+        chai.request(server).post('/')
+            .send().end(function(err, res) {
+
+                res.should.have.status(200);
+                res.body.fingerprint.should.equal(currentID);
                 done();
             });
     });
