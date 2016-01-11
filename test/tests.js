@@ -35,7 +35,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of(40);
-                console.log('Current Unique ID: ' + res.body.fingerprint);
+                console.log('Current Unique Device ID: ' + res.body.fingerprint);
                 done();
             });
     });
