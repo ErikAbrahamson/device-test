@@ -34,7 +34,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.have.length.of.at.least(5);
+                res.body.fingerprint.should.have.length.of(40);
                 console.log('Current Unique ID: ' + res.body.fingerprint);
                 done();
             });
@@ -52,7 +52,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.have.length.of.at.least(5);
+                res.body.fingerprint.should.have.length.of(40);
                 currentID = res.body.fingerprint;
             });
 
@@ -80,7 +80,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.have.length.of.at.least(5);
+                res.body.fingerprint.should.have.length.of(40);
             });
 
         chai.request(server).post('/')
@@ -93,7 +93,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.have.length.of.at.least(5);
+                res.body.fingerprint.should.have.length.of(40);
                 done();
             });
     });
@@ -117,7 +117,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.equal('M1005-de');
+                res.body.fingerprint.should.equal('23aa859f48629c4b10b60f6ec10ac42d3208e58c');
                 done();
         });
     });
@@ -125,31 +125,31 @@ describe('Augur Device Recognition', function() {
     // If you got this to work on desktop, get this to also work on mobile
     it('Should have the unique ID differentiate between device types', function(done) {
 
-        var operaMobile = 'Opera/9.80 (J2ME/MIDP; Opera Mini/9.80 (S60; SymbOS; Opera Mobi/23.348; U; en) Presto/2.5.25 Version/10.54';
+        var OSX = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36',
+            iOS = 'Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25';
 
-        var devices = new RegExp(/(de)|(te)|(ta)|(ph)|(ca)/g);
         chai.request(server).post('/')
-            .send().end(function(err, res) {
+            .set('user-agent', OSX).send().end(function(err, res) {
 
                 res.should.have.status(200);
                 res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.have.length.of.at.least(5);
-                res.body.fingerprint.split('-',2)[1].should.match(devices);
+                res.body.fingerprint.should.have.length.of(40);
+                res.body.fingerprint.should.equal('23aa859f48629c4b10b60f6ec10ac42d3208e58c');
             });
 
         chai.request(server).post('/')
-            .set('user-agent', operaMobile).send().end(function(err, res) {
+            .set('user-agent', iOS).send().end(function(err, res) {
 
                 res.should.have.status(200);
                 res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.have.length.of.at.least(5);
-                res.body.fingerprint.split('-',2)[1].should.equal('ph');
+                res.body.fingerprint.should.have.length.of(40);
+                res.body.fingerprint.should.equal('1388927a55827e2a48034b734ce235e06fa36952');
                 done();
             });
     });
