@@ -32,10 +32,10 @@ router.post('/', function(req, res, next) {
             os = req.device.parser.useragent.os,
             buildID = Object.keys(os).length !== 0
                 ? new Chance(
-                    (os.family[0] + (+os.major * +os.minor).toString() + +os.patch + '-' + device[0] + device[1]).toString())
+                    (os.family[0] + (+os.major * +os.minor).toString() + +os.patch + device[0] + device[1]).toString())
                         .hash()
                 : new Chance(
-                    (br[0] + (+patch * +major).toString() + os[0] + '-' + device[0] + device[1]).toString())
+                    (br[0] + (+patch * +major).toString() + os[0] + device[0] + device[1]).toString())
                         .hash();
 
     UniqueID.findQ()

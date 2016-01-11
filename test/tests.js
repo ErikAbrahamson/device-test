@@ -117,7 +117,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
-                res.body.fingerprint.should.equal('23aa859f48629c4b10b60f6ec10ac42d3208e58c');
+                res.body.fingerprint.should.equal('ff580a1207fd7de3c1d0f1fe5d9a4a445bdcb067');
                 done();
         });
     });
@@ -130,14 +130,14 @@ describe('Augur Device Recognition', function() {
 
         chai.request(server).post('/')
             .set('user-agent', OSX).send().end(function(err, res) {
-
+                
                 res.should.have.status(200);
                 res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of(40);
-                res.body.fingerprint.should.equal('23aa859f48629c4b10b60f6ec10ac42d3208e58c');
+                res.body.fingerprint.should.equal('ff580a1207fd7de3c1d0f1fe5d9a4a445bdcb067');
             });
 
         chai.request(server).post('/')
@@ -149,7 +149,7 @@ describe('Augur Device Recognition', function() {
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
                 res.body.fingerprint.should.have.length.of(40);
-                res.body.fingerprint.should.equal('1388927a55827e2a48034b734ce235e06fa36952');
+                res.body.fingerprint.should.equal('af88b030ea5bde25f2a368b452924e7d7768164a');
                 done();
             });
     });
