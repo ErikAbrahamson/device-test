@@ -30,7 +30,7 @@ describe('Augur Device Recognition', function() {
             .send().end(function(err, res) {
 
                 res.should.have.status(200);
-                res.body.should.be.a('object');
+                res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
@@ -49,7 +49,7 @@ describe('Augur Device Recognition', function() {
             .send().end(function(err, res) {
 
                 res.should.have.status(200);
-                res.body.should.be.a('object');
+                res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
@@ -68,7 +68,7 @@ describe('Augur Device Recognition', function() {
                 tempCookie = res.headers['set-cookie'][0];
                 tempCookie.should.be.a('string');
                 res.should.have.status(200);
-                res.body.should.be.a('object');
+                res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
@@ -81,7 +81,7 @@ describe('Augur Device Recognition', function() {
                 res.headers['set-cookie'][0].should.not.equal(tempCookie);
                 tempCookie.should.be.a('string');
                 res.should.have.status(200);
-                res.body.should.be.a('object');
+                res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
@@ -91,25 +91,25 @@ describe('Augur Device Recognition', function() {
     });
 
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
-    it('Should retain unique ID across browsers', function(done) {
+    it('Should retain a unique ID across browsers', function(done) {
 
         var browsers = [
-            'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0',
-            'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.5.5 (KHTML, like Gecko) Safari/125.5.5',
-            'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2'
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) Gecko/20100101 Firefox/8.0',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/125.5.5 (KHTML, like Gecko) Safari/125.5.5',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'
         ];
 
-        var options = {
-            url: '/',
-            headers: {
-                'user-agent': browsers[Math.floor(Math.random() * browsers.length + 1)]
-            }
-        };
+        var randomBrowser = browsers[Math.floor(Math.random() * browsers.length)];
+        chai.request(server).post('/')
+            .set('user-agent', randomBrowser).send().end(function(err, res) {
 
-        chai.request(server).post(options)
-            .send().end(function(err, res) {
-                console.log(res);
                 res.should.have.status(200);
+                res.body.should.be.an('object');
+                res.body.should.have.property('_id');
+                res.body.should.have.property('fingerprint');
+                res.body.fingerprint.should.not.equal(null);
+                res.body.fingerprint.should.equal('M1005-de');
                 done();
         });
     });
@@ -122,7 +122,7 @@ describe('Augur Device Recognition', function() {
             .send().end(function(err, res) {
 
                 res.should.have.status(200);
-                res.body.should.be.a('object');
+                res.body.should.be.an('object');
                 res.body.should.have.property('_id');
                 res.body.should.have.property('fingerprint');
                 res.body.fingerprint.should.not.equal(null);
