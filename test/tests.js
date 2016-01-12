@@ -104,7 +104,6 @@ describe('Augur Device Recognition', function() {
         var browsers = [
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) Gecko/20100101 Firefox/8.0',
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/125.5.5 (KHTML, like Gecko) Safari/125.5.5',
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2',
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'
         ];
 
@@ -130,7 +129,7 @@ describe('Augur Device Recognition', function() {
 
         chai.request(server).post('/')
             .set('user-agent', OSX).send().end(function(err, res) {
-                
+
                 res.should.have.status(200);
                 res.body.should.be.an('object');
                 res.body.should.have.property('_id');
