@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
-    // Build unique ID with express-device to parse userAgent headers
+    // Build unique ID with express-device && Chance.js to parse userAgent headers
     var device = req.device.type,
          patch = req.device.parser.useragent.patch,
          major = req.device.parser.useragent.major,
@@ -62,7 +62,7 @@ router.post('/', function(req, res, next) {
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
                 }
-                
+
             // Initial browser store
             } else {
                 new UniqueID({ fingerprint: buildID }).saveQ()
