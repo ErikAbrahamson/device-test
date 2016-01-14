@@ -30,6 +30,7 @@ router.post('/', function(req, res, next) {
          major = req.device.parser.useragent.major,
             br = req.device.parser.useragent.family,
             os = req.device.parser.useragent.os,
+
             buildID = Object.keys(os).length !== 0
                 ? new Chance(
                     (os.family[0] + (+os.major * +os.minor).toString() + os.patch + device[0] + device[1]).toString())
@@ -61,6 +62,7 @@ router.post('/', function(req, res, next) {
                         .then(function(data) { res.json(data); })
                         .catch(function(error) { res.json(error); });
                 }
+                
             // Initial browser store
             } else {
                 new UniqueID({ fingerprint: buildID }).saveQ()
