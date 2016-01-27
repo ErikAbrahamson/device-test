@@ -20,6 +20,8 @@ router.post('/', function(req, res, next) {
         .update(req.connection._peername.address)
         .digest('hex');
 
+    console.log(req.connection._peername.address);
+
     UniqueID.findQ(({ 'fingerprint': buildID }))
 
         .then(function(result) {
