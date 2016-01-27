@@ -15,7 +15,10 @@ G) Create a scalable solution
 */
 
 router.get('/', function(req, res, next) {
-    res.json(req.connection._peername);
+
+    var code = new Chance(req.connection._peername.toString()).hash();
+
+    res.json(code);
 });
 
 module.exports = router;
