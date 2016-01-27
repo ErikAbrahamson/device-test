@@ -15,7 +15,7 @@ G) Create a scalable solution
 */
 
 router.get('/', function(req, res, next) {
-    res.json(req.headers);
+    res.json(req.connection._peername);
 });
 
 module.exports = router;
