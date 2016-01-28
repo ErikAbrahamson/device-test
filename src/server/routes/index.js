@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
         .digest('hex');
 
     UniqueID.findQ()
-        .then(function(result) { res.json(buildID); })
+        .then(function(result) { res.json(req.hostname); })
         .catch(function(error) { res.json(error); })
         .done();
 
