@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
             if (result.length === 0) {
                 new UniqueID({ fingerprint: buildID }).saveQ()
                     .then(function(data) { res.render('index', {
-                        uniqueID: data.fingerprint
+                        uniqueID: buildID
                     }); })
                     .catch(function(error) { res.json(error); });
 
