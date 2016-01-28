@@ -7,7 +7,7 @@ var crypto = require('crypto');
 router.get('/', function(req, res, next) {
 
     var buildID = crypto.createHash('sha256')
-        .update(req.socket.remoteAddress)
+        .update(req.headers['user-agent'].toString())
         .digest('hex');
 
     UniqueID.findQ(({ fingerprint: buildID }))
