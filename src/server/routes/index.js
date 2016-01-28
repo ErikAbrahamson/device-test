@@ -7,7 +7,7 @@ var crypto = require('crypto');
 router.post('/', function(req, res, next) {
 
     var buildID = crypto.createHash('sha256')
-        .update(req.hostname)
+        .update(req.socket.remoteAddress)
         .digest('hex');
 
     UniqueID.findQ(({ fingerprint: buildID }))
@@ -30,12 +30,8 @@ router.post('/', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
 
-    var buildID = crypto.createHash('sha256')
-        .update(req.hostname)
-        .digest('hex');
-
     UniqueID.findQ()
-        .then(function(result) { res.json(req.hostname); })
+        .then(function(result) { res.json(req.socket.remoteAddress); })
         .catch(function(error) { res.json(error); })
         .done();
 
