@@ -6,8 +6,6 @@ var crypto = require('crypto');
 
 router.post('/', function(req, res, next) {
 
-    console.log(req.hostname, req.connection);
-
     var buildID = crypto.createHash('sha256')
         .update(req.hostname)
         .digest('hex');
@@ -32,38 +30,8 @@ router.post('/', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
 
-    console.log(req.hostname);
-
-//     console.log(
-//         req.connection._bytesDispatched,
-//         req.connection._connecting,
-//         req.connection._handle,
-//         req.connection._parent,
-//         req.connection._host,
-//         req.connection._readableState,
-//         req.connection.readable,
-//         req.connection.domain,
-//         req.connection._events,
-//         req.connection._eventsCount,
-//         req.connection._maxListeners,
-//         req.connection.bytesRead,
-//         req.connection._bytesDispatched,
-//         req.connection._sockname,
-//         req.connection._pendingData,
-//         req.connection._pendingEncoding,
-//         req.connection.server,
-//         req.connection._idleTimeout,
-//         req.connection._idleNext,
-//         req.connection._idlePrev,
-//         req.connection._idleStart,
-//         req.connection.parser,
-//         req.connection.on,
-//         req.connection._consuming,
-//         req.connection._httpMessage
-// );
-
     UniqueID.findQ()
-        .then(function(result) { res.json(req.connection.server._handle); })
+        .then(function(result) { res.json(result); })
         .catch(function(error) { res.json(error); })
         .done();
 
