@@ -8,7 +8,7 @@
             <tr>
                 <td>{{ uniqueID }}</td>
             </tr>
-            {% for device in uniqueID %}
+            {% for device in UniqueIDs %}
             {% if loop.first %}<tr>{% endif %}
                 <td>{{ device.fingerprint }}</td>
             {% if loop.last %}</tr>{% endif %}

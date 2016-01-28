@@ -15,25 +15,20 @@ router.get('/', function(req, res, next) {
 
             if (result.length === 0) {
                 new UniqueID({ fingerprint: buildID }).saveQ()
-                    .then(function(data) { res.render('index', {
-                        uniqueID: buildID
-                    }); })
+                    .then(function(data) {
+                        res.render('index', { uniqueID: buildID }); })
                     .catch(function(error) { res.json(error); });
 
             } else {
                 var options = { new: false }, query = { fingerprint: buildID };
                 UniqueID.findOneAndUpdateQ(query, buildID, options)
                     .then(function(data) {
-
-                        res.render('index', {
-                        uniqueID: data.fingerprint
-                    }); })
+                        res.render('index', { uniqueID: data.fingerprint }); })
                     .catch(function(error) { res.json(error); });
             }
         })
         .catch(function(error) { res.json(error); })
         .done();
-
 });
 
 module.exports = router;
