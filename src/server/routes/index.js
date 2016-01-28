@@ -13,17 +13,25 @@ router.get('/', function(req, res, next) {
     UniqueID.findQ(({ fingerprint: buildID }))
         .then(function(result) {
 
+            console.log(result);
+
             if (result.length === 0) {
                 new UniqueID({ fingerprint: buildID }).saveQ()
                     .then(function(data) {
-                        res.render('index', { uniqueID: buildID }); })
+                        res.render('index', {
+                            fingerprint: buildID,
+                            devices: result
+                        }); })
                     .catch(function(error) { res.json(error); });
 
             } else {
                 var options = { new: false }, query = { fingerprint: buildID };
                 UniqueID.findOneAndUpdateQ(query, buildID, options)
                     .then(function(data) {
-                        res.render('index', { uniqueID: data.fingerprint }); })
+                        console.log(data);
+                        res.render('index', {
+                            fingerprint: data.fingerprint
+                        }); })
                     .catch(function(error) { res.json(error); });
             }
         })
