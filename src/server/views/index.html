@@ -1,20 +1,18 @@
 {% extends 'layout.html' %}
-
 {% block title %}{% endblock %}
-
 {% block content %}
 
     <div class="container">
-        <h1>{{ title }}</h1>
+        <h1>Device Recognition Test</h1>
         <table>
             <tr>
-                <td>
-                    <p>Your Browser ID</p>
-                </td>
-                <td>
-                    <strong>{{ uniqueID }}</strong>
-                </td>
+                <td>{{ uniqueID }}</td>
             </tr>
+            {% for device in uniqueID %}
+            {% if loop.first %}<tr>{% endif %}
+                <td>{{ device.fingerprint }}</td>
+            {% if loop.last %}</tr>{% endif %}
+            {% endfor %}
         </table>
     </div>
 
