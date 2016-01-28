@@ -2,23 +2,23 @@
 {% block title %}{% endblock %}
 {% block content %}
 
-    <div class="container">
+    <div class="container text-center">
         <h1>Device Recognition Test</h1>
         <hr />
-        <div class="row">
-            <h3>Your Current Browser ID</h3>
-            <h5><strong>{{ fingerprint }}</strong></h5>
+        <div class="row center-block">
+            <h2>Your Current Browser ID</h2>
+            <h4><strong>{{ fingerprint }}</strong></h4>
         </div>
-        <div class="row">
-            <h3>All Browsers</h3>
+        <div class="row center-block">
+            <h2>All Browsers</h2>
             {% for id in devices %}
-            {% if loop.first %}<ul>{% endif %}
-                <li>{{ id['fingerprint'] }}</li>
+            {% if loop.first %}<ul class="list-unstyled">{% endif %}
+            {% if id.fingerprint == fingerprint %}<li class="text-success"><strong>{{ id.fingerprint }}</strong></li>
+            {% else %}<li>{{ id.fingerprint }}</li>{% endif %}
             {% if loop.last %}</ul>{% endif %}
             {% endfor %}
 
         </div>
     </div>
-
 
 {% endblock %}
