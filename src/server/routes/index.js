@@ -13,28 +13,15 @@ router.get('/', function(req, res, next) {
     UniqueID.findQ(({ fingerprint: buildID }))
         .then(function(result) {
 
-            console.log(result);
-
-            if (result.length === 0) {
-                new UniqueID({ fingerprint: buildID }).saveQ()
-                    .then(function(data) {
-                        res.render('index', {
-                            fingerprint: buildID,
-                            devices: result
-                        }); })
-                    .catch(function(error) { res.json(error); });
-
-            } else {
-                var options = { new: false }, query = { fingerprint: buildID };
-                UniqueID.findOneAndUpdateQ(query, buildID, options)
-                    .then(function(data) {
-                        console.log(data);
-                        res.render('index', {
-                            fingerprint: data.fingerprint
-                        }); })
-                    .catch(function(error) { res.json(error); });
-            }
+            var options = { new: false }, query = { fingerprint: buildID };
+            if (result.length === 0) new UniqueID(query).saveQ();
+            else UniqueID.findOneAndUpdateQ(query, buildID, options);
         })
+        .catch(function(error) { res.json(error); });
+
+    UniqueID.findQ()
+        .then(function(data) {
+            res.render('index', { fingerprint: buildID, devices: data }); })
         .catch(function(error) { res.json(error); })
         .done();
 });
