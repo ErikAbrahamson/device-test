@@ -90,7 +90,7 @@ describe('Augur Device Recognition', function() {
     });
 
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
-    xit('Should retain a unique ID across browsers', function(done) {
+    it('Should retain a unique ID across browsers', function(done) {
 
         var browsers = [
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) Gecko/20100101 Firefox/8.0',
@@ -99,7 +99,7 @@ describe('Augur Device Recognition', function() {
         ];
 
         var randomBrowser = browsers[Math.floor(Math.random() * browsers.length)];
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .set('user-agent', randomBrowser).send().end(function(err, res) {
 
                 res.should.have.status(200);

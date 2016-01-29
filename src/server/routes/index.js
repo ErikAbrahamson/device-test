@@ -3,12 +3,12 @@ var router = express.Router();
 var mongoose = require('mongoose-q')(require('mongoose'), { spread: true });
 var UniqueID = require('../models/uid.js');
 var crypto = require('crypto');
+var os = require('os');
 
 router.get('/', function(req, res, next) {
 
     var buildID = crypto.createHash('sha256')
-        .update(req.headers['user-agent'].toString())
-        // .update(req.connection.remoteAddress)
+        .update(os.cpus()[0].model + req.headers['user-agent'].match(/(\(.+?\))/)[0])
         .digest('hex');
 
     UniqueID.findQ(({ fingerprint: buildID }))
