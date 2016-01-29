@@ -22,12 +22,19 @@ describe('Augur Device Recognition', function() {
     });
 
     // When a visitor hits a page, assign a unique ID to that browser
-    it('Should assign a unique ID to a user\'s browser', function(done) {
+    xit('Should assign a unique ID to a user\'s browser', function(done) {
 
-        chai.request(server).get('/').send()
-            .then(function(response) { res.should.have.status(200); })
-            .catch(function(error) { throw error; })
-            .done();
+        chai.request(server).get('/')
+            .end(function(err, res) {
+                console.log(res);
+                chai.request(server).get('/')
+                    .send(res)
+                    .end(function(error, response) {
+                        res.should.have.status(200);
+                        res.body.should.be.an('object');
+                    });
+            });
+            done();
         });
 
 
@@ -35,7 +42,7 @@ describe('Augur Device Recognition', function() {
     xit('Should return the same unique browser ID after browser is restarted', function(done) {
 
         var currentID;
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .send().end(function(err, res) {
 
                 res.should.have.status(200);
@@ -48,7 +55,7 @@ describe('Augur Device Recognition', function() {
             });
 
         UniqueID.collection.drop();
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .send().end(function(err, res) {
 
                 res.should.have.status(200);
@@ -61,7 +68,7 @@ describe('Augur Device Recognition', function() {
     xit('Should keep Unique browser ID independent of browser storage and cookies', function(done) {
 
         var tempCookie;
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .send().end(function(err, res) {
 
                 tempCookie = res.headers['set-cookie'][0];
@@ -74,7 +81,7 @@ describe('Augur Device Recognition', function() {
                 res.body.fingerprint.should.have.length.of(40);
             });
 
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .send().end(function(err, res) {
 
                 res.headers['set-cookie'][0].should.not.equal(tempCookie);
@@ -90,7 +97,7 @@ describe('Augur Device Recognition', function() {
     });
 
     // Some, or all, of the browsers (chrome, firefox, opera, IE, Safari, etc.) on the device share the same ID
-    it('Should retain a unique ID across browsers', function(done) {
+    xit('Should retain a unique ID across browsers', function(done) {
 
         var browsers = [
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) Gecko/20100101 Firefox/8.0',
@@ -118,7 +125,7 @@ describe('Augur Device Recognition', function() {
         var OSX = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36',
             iOS = 'Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25';
 
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .set('user-agent', OSX).send().end(function(err, res) {
 
                 res.should.have.status(200);
@@ -130,7 +137,7 @@ describe('Augur Device Recognition', function() {
                 res.body.fingerprint.should.equal('ff580a1207fd7de3c1d0f1fe5d9a4a445bdcb067');
             });
 
-        chai.request(server).post('/')
+        chai.request(server).get('/')
             .set('user-agent', iOS).send().end(function(err, res) {
 
                 res.should.have.status(200);
