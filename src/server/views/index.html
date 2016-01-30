@@ -6,11 +6,11 @@
         <h1>Device Recognition Test</h1>
         <hr />
         <div class="row center-block">
-            <h2>Your Current Browser ID</h2>
+            <h2>Your Current Device ID</h2>
             <h4><strong>{{ fingerprint }}</strong></h4>
         </div>
         <div class="row center-block">
-            <h2>All Browsers</h2>
+            <h2>All Devices</h2>
             {% for id in devices %}
             {% if loop.first %}<ul class="list-unstyled">{% endif %}
             {% if id.fingerprint == fingerprint %}<li class="text-success"><strong>{{ id.fingerprint }}</strong></li>
